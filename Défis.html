@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>🎲 Défis & Chaos 🎉</title>
+<style>
+body { font-family: Arial; background:#0f0f0f; color:white; text-align:center; }
+button { padding:12px; margin:8px; border-radius:10px; border:none; cursor:pointer; transition: transform 0.2s; }
+button:hover { transform: scale(1.1); }
+.box { background:#1a1a1a; padding:20px; border-radius:15px; margin-top:20px; }
+</style>
+</head>
+<body>
+
+<h1>🎲 Défis & Chaos</h1>
+<div class="box">
+<h2>🎯 Nouveau Défi</h2>
+<button onclick="defi()">Lancer un défi</button>
+<p id="defiResult"></p>
+</div>
+
+<div class="box">
+<h2>💣 Chaos</h2>
+<button onclick="chaos()">Lancer le chaos 😈</button>
+<p id="chaosResult"></p>
+</div>
+
+<button onclick="goNext()">Suivant ➡️</button>
+
+<script>
+function defi(){
+let d = [
+"Danse 10 secondes 💃",
+"Fais rire quelqu’un 😂",
+"Imite quelqu’un 😏",
+"Complimente 2 personnes 💬",
+"Fais une pose ridicule 🤡",
+"Choisis un duo pour une photo 📸"
+];
+document.getElementById("defiResult").innerText = d[Math.floor(Math.random()*d.length)];
+}
+
+function chaos(){
+let c = [
+"TOUT LE MONDE FAIT UNE POSE BIZARRE 🤡",
+"PHOTO DE GROUPE MAINTENANT 📸",
+"TOUT LE MONDE DOIT RIRE 😂",
+"CHANGE DE PLACE 🔄"
+];
+document.getElementById("chaosResult").innerText = c[Math.floor(Math.random()*c.length)];
+}
+
+function goNext(){ window.location.href="podium.html"; }
+</script>
+
+</body>
+</html>
