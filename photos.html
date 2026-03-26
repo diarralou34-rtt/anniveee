@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>📸 Photos Drôles 🎉</title>
+<style>
+body { font-family: Arial; background:#0f0f0f; color:white; text-align:center; }
+button { padding:12px; margin:8px; border-radius:10px; border:none; cursor:pointer; }
+img { max-width:200px; margin:10px; border-radius:10px; cursor:pointer; transition: transform 0.3s; }
+img:hover { transform: scale(1.1) rotate(5deg); }
+.box { background:#1a1a1a; padding:20px; border-radius:15px; margin-top:20px; }
+.vote-count { font-size:0.9em; color:#ffd700; margin-left:5px; }
+</style>
+</head>
+<body>
+
+<h1>📸 Photo la plus drôle</h1>
+<div class="box">
+<p>Temps restant : <span id="photoTimer">60</span> sec</p>
+<input type="file" id="photoInput" accept="image/*">
+<button onclick="submitPhoto()">Envoyer</button>
+<div id="photoGallery" style="margin-top:20px;"></div>
+</div>
+
+<button onclick="goNext()">Suivant ➡️</button>
+
+<script>
+let photoTime = 60;
+let photoList = [];
+let photoInterval = setInterval(()=>{
+if(photoTime>0){ photoTime--; document.getElementById("photoTimer").innerText=photoTime; }
+else{ clearInterval(photoInterval); document.getElementById("photoTimer").innerText="Temps écoulé ⏰"; document.getElementById("photoInput").disabled=true; }
+},1000);
+
+function submitPhoto(){
+let fileInput=document.getElementById("photoInput");
+if(fileInput.files.length>0 && photoTime>0){
+let reader=new FileReader();
+reader.onload=function(e){
+let img=document.createElement("img");
+img.src=e.target.result;
+img.dataset.votes=0;
+img.onclick=()=>{ img.dataset.votes++; updateVoteDisplay(img); };
+photoList.push(img);
+document.getElementById("photoGallery").appendChild(img);
+}
+reader.readAsDataURL(fileInput.files[0]);
+fileInput.value="";
+}
+}
+
+function updateVoteDisplay(el){
+let span=el.querySelector(".vote-count");
+if(!span){ span=document.createElement("span"); span.className="vote-count"; el.appendChild(span); }
+span.innerText=el.dataset.votes;
+}
+
+function goNext(){
+localStorage.setItem("photoList", JSON.stringify(photoList.map(p=>p.src)));
+localStorage.setItem("photoVotes", JSON.stringify(photoList.map(p=>p.dataset.votes)));
+window.location.href="messages.html";
+}
+</script>
+
+</body>
+</html>
