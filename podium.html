@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>🏆 Podium Live 🎉</title>
+<style>
+body { font-family: Arial; background:#0f0f0f; color:white; text-align:center; overflow-x:hidden; }
+.box { background:#1a1a1a; padding:20px; border-radius:15px; margin:40px auto; width:80%; }
+img { max-width:200px; margin:10px; border-radius:10px; cursor:pointer; transition: transform 0.3s; }
+img:hover { transform: scale(1.05) rotate(5deg); }
+.messageBox { border:1px solid #fff; padding:5px; margin:5px auto; border-radius:5px; max-width:80%; cursor:pointer; transition: transform 0.2s; }
+.confetti { position: absolute; width: 10px; height: 10px; background: #ffd700; animation: fall 3s linear infinite; }
+@keyframes fall { 0% {top:-10px;} 100% {top:100vh;} }
+</style>
+</head>
+<body>
+
+<h1>🏆 Podium Live</h1>
+<div class="box" id="winnerGallery"></div>
+
+<script>
+// Récupérer données
+let photoList = JSON.parse(localStorage.getItem("photoList")||"[]");
+let photoVotes = JSON.parse(localStorage.getItem("photoVotes")||"[]");
+let messageList = JSON.parse(localStorage.getItem("messageList")||"[]");
+let messageVotes = JSON.parse(localStorage.getItem("messageVotes")||"[]");
+
+let winnerDiv = document.getElementById("winnerGallery");
+
+function renderPodium(){
+winnerDiv.innerHTML = "<h3>📸 Photos les plus votées</h3>";
+let photoArr = photoList.map((src,i)=>({src,votes:parseInt(photoVotes[i])||0}));
+photoArr.sort((a,b)=>b.votes-a.votes).slice(0,3).forEach((p,i)=>{
+winnerDiv.innerHTML+=`<p>#${i+1} avec ${p.votes} votes</p><img src="${p.src}" onclick="p.votes++">`;
+});
+
+winnerDiv.innerHTML+="<h3>💌 Messages les plus votés</h3>";
+let msgArr = messageList.map((txt,i)=>({txt,votes:parseInt(messageVotes[i])||0}));
+msgArr.sort((a,b)=>b.votes-a.votes).slice(0,3).forEach((m,i)=>{
+winnerDiv.innerHTML+=`<p>#${i+1} avec ${m.votes} votes : ${m.txt}</p>`;
+});
+}
+
+renderPodium();
+
+// Confettis
+for(let i=0;i<50;i++){
+let c = document.createElement("div");
+c.className="confetti";
+c.style.left = Math.random()*100+"vw";
+c.style.background = `hsl(${Math.random()*360},100%,50%)`;
+document.body.appendChild(c);
+}
+</script>
+
+</body>
+</html>
