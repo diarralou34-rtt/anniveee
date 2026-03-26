@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>😂 Quiz Soirée 18 ans 🎉</title>
+<style>
+body { font-family: Arial; background:#0f0f0f; color:white; text-align:center; }
+button { padding:12px; margin:8px; border-radius:10px; border:none; cursor:pointer; }
+.box { background:#1a1a1a; padding:20px; border-radius:15px; margin-top:20px; }
+</style>
+</head>
+<body>
+
+<h1>😂 Quiz : Tu me connais vraiment ?</h1>
+
+<div class="box">
+<p>Ce que je fais quand je m’ennuie ?</p>
+<button onclick="reponse('😂 Exact ! Je fais des vidéos gênantes à mon copain 😏')">Faire des vidéos à mon copain 😏</button>
+<button onclick="reponse('Non 😭')">Dormir</button>
+<button onclick="reponse('Non 😭')">Scroller</button>
+<button onclick="reponse('Non 😭')">Être productive</button>
+<p id="resultatQuiz"></p>
+</div>
+
+<div class="box">
+<p>Mon plat préféré ?</p>
+<button onclick="reponse2('🧀 Oui ! Tartiflette 😋')">Tartiflette</button>
+<button onclick="reponse2('Non 😭')">Pizza</button>
+<button onclick="reponse2('Non 😭')">Sushi</button>
+<button onclick="reponse2('Non 😭')">Pâtes</button>
+<p id="resultatQuiz2"></p>
+</div>
+
+<button onclick="goNext()">Suivant ➡️</button>
+
+<script>
+function reponse(text){ document.getElementById("resultatQuiz").innerText = text; }
+function reponse2(text){ document.getElementById("resultatQuiz2").innerText = text; }
+function goNext(){ window.location.href = "photos.html"; }
+</script>
+
+</body>
+</html>
