@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>💌 Messages Drôles 🎉</title>
+<style>
+body { font-family: Arial; background:#0f0f0f; color:white; text-align:center; }
+button { padding:12px; margin:8px; border-radius:10px; border:none; cursor:pointer; }
+.box { background:#1a1a1a; padding:20px; border-radius:15px; margin-top:20px; }
+textarea { width:80%; padding:8px; margin-top:10px; border-radius:8px; border:none; }
+.messageBox { border:1px solid #fff; padding:5px; margin:5px auto; border-radius:5px; max-width:80%; cursor:pointer; transition: transform 0.2s; }
+.messageBox:hover { transform: scale(1.05); }
+.vote-count { font-size:0.9em; color:#ffd700; margin-left:5px; }
+</style>
+</head>
+<body>
+
+<h1>💌 Messages drôles</h1>
+<div class="box">
+<p>Temps restant : <span id="messageTimer">60</span> sec</p>
+<textarea id="messageInput" placeholder="Écris ton message ici..."></textarea><br>
+<button onclick="submitMessage()">Envoyer</button>
+<div id="messageGallery" style="margin-top:20px;"></div>
+</div>
+
+<button onclick="goNext()">Suivant ➡️</button>
+
+<script>
+let messageTime = 60;
+let messageList = [];
+let messageInterval = setInterval(()=>{
+if(messageTime>0){ messageTime--; document.getElementById("messageTimer").innerText = messageTime; }
+else{ clearInterval(messageInterval); document.getElementById("messageTimer").innerText = "Temps écoulé ⏰"; document.getElementById("messageInput").disabled=true; }
+},1000);
+
+function submitMessage(){
+let msgInput=document.getElementById("messageInput");
+if(msgInput.value.trim()!=="" && messageTime>0){
+let p=document.createElement("p");
+p.innerText=msgInput.value;
+p.className="messageBox";
+p.dataset.votes=0;
+p.onclick=()=>{ p.dataset.votes++; updateVoteDisplay(p); };
+messageList.push(p);
+document.getElementById("messageGallery").appendChild(p);
+msgInput.value="";
+}
+}
+
+function updateVoteDisplay(el){
+let span=el.querySelector(".vote-count");
+if(!span){ span=document.createElement("span"); span.className="vote-count"; el.appendChild(span); }
+span.innerText = el.dataset.votes;
+}
+
+function goNext(){
+localStorage.setItem("messageList", JSON.stringify(messageList.map(m=>m.innerText)));
+localStorage.setItem("messageVotes", JSON.stringify(messageList.map(m=>m.dataset.votes)));
+window.location.href="defis.html";
+}
+</script>
+
+</body>
+</html>
